@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UserService.Data.Entities;
+using UserService.Domain.Entities.Users;
+using UserService.Infrastructure.Data.Mappings;
 
-namespace UserService.Data
+namespace UserService.Infrastructure.Data
 {
     public class UserServiceContext : DbContext
     {
@@ -15,5 +16,10 @@ namespace UserService.Data
         }
 
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UserMap());
+        }
     }
 }

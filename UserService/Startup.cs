@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using UserService.Data;
+using UserService.Application.Services.Users;
+using UserService.Domain.Repositories;
+using UserService.Infrastructure.Data;
+using UserService.Infrastructure.Data.Repositories;
 
 namespace UserService
 {
@@ -42,6 +46,13 @@ namespace UserService
                 options.UseSqlite(@"Data Source=user.db"));
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>()
+                .AddScoped<IAppUserService, AppUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

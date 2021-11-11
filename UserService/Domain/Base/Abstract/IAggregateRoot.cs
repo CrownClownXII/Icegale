@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UserService.Data.Entities
+namespace UserService.Domain.Base.Abstract
 {
-    public class User
+    public interface IAggregateRoot
     {
-        public Guid Id { get; set; }
     }
 }
